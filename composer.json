@@ -5,12 +5,12 @@
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "IgorBudasov\\IptcManager\\": "src"
+            "iBudasov\\Iptc\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "IgorBudasov\\IptcManager\\Tests\\": "tests/"
+            "iBudasov\\Iptc\\Tests\\": "tests/"
         }
     },
     "require": {
