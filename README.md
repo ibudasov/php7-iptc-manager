@@ -17,11 +17,13 @@ composer require ibudasov/php7-iptc-manager
 
 # usage
 ```
-use IgorBudasov\IptcManager\IptcManager;
+use iBudasov\Iptc\Infrastructure\StandardPhpFileSystem;
+use iBudasov\Iptc\Manager;
 
-$manager = new IptcManager();
+$fileSystem = new StandardPhpFileSystem();
+$manager = new Manager($fileSystem);
 
-$manager->setPathToFile($pathToFile);
+$manager->setPathToFile('/tmp/proper-file.jpg');
 
 ```
 
