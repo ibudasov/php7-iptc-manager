@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace iBudasov\Iptc;
 
 use iBudasov\Iptc\Domain\FileSystem;
+use iBudasov\Iptc\Domain\Image;
 
 class Manager
 {
@@ -21,11 +22,23 @@ class Manager
     private $fileSystem;
 
     /**
-     * @param FileSystem $fileSystem
+     * @var Image
      */
-    public function __construct(FileSystem $fileSystem)
+    private $image;
+
+    /**
+     * @var array
+     */
+    private $iptcTags;
+
+    /**
+     * @param FileSystem $fileSystem
+     * @param Image      $image
+     */
+    public function __construct(FileSystem $fileSystem, Image $image)
     {
         $this->fileSystem = $fileSystem;
+        $this->image = $image;
     }
 
     /**
@@ -40,10 +53,20 @@ class Manager
             );
         }
 
-        if(false === $this->fileSystem->isFile($pathToFile)) {
+        if (false === $this->fileSystem->isFile($pathToFile)) {
             throw new \InvalidArgumentException('File not found');
         }
 
         $this->pathToFile = $pathToFile;
+
+        $this->iptcTags = $this->image->getIptcTags($pathToFile);
+    }
+
+    /**
+     * @return array
+     */
+    public function getIptcTags(): array
+    {
+        return $this->iptcTags;
     }
 }
