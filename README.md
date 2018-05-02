@@ -21,7 +21,8 @@ use iBudasov\Iptc\Infrastructure\StandardPhpFileSystem;
 use iBudasov\Iptc\Manager;
 
 $fileSystem = new StandardPhpFileSystem();
-$manager = new Manager($fileSystem);
+$image = new StandardPhpImage();
+$manager = new Manager($fileSystem, $image);
 
 $manager->setPathToFile('/tmp/proper-file.jpg');
 
