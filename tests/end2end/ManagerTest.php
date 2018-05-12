@@ -67,4 +67,10 @@ class ManagerTest extends TestCase
         self::assertInternalType('array', $this->manager->getIptcTags());
         self::assertEmpty($this->manager->getIptcTags());
     }
+
+    public function testThatAuthorTagCanBeReturned(): void
+    {
+        self::assertNull($this->manager->setPathToFile(__DIR__.'/proper-file.jpg'));
+        self::assertEquals(['IGOR BUDASOV'], $this->manager->getTagValue(Manager::TAG_AUTHOR));
+    }
 }

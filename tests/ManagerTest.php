@@ -102,4 +102,70 @@ class ManagerTest extends TestCase
         self::assertInternalType('array', $this->manager->getIptcTags());
         self::assertArrayHasKey('2#025', $this->manager->getIptcTags());
     }
+
+    public function testThatKeywordTagsCanBeReturned(): void
+    {
+        $pathToFile = '/tmp/test.jpg';
+
+        $this->fileSystemMock->shouldReceive('isFile')
+            ->once()
+            ->with($pathToFile)
+            ->andReturnTrue();
+
+        $this->imageMock->shouldReceive('getIptcTags')
+            ->once()
+            ->with($pathToFile)
+            ->andReturn(\json_decode('{"2#001":["\u001b%G"],"2#000":["\u0000\u0004"],"2#055":["20180328"],"2#060":["124126"],"2#062":["20180328"],"2#063":["124126"],"2#080":["IGOR BUDASOV"],"2#025":["norway","scandinavia","spring"],"2#120":["Spring in Norway: a large mountain in the background"]}', true));
+
+        $this->manager->setPathToFile($pathToFile);
+
+        self::assertEquals(
+            \json_decode('["norway","scandinavia","spring"]'),
+            $this->manager->getTagValue(Manager::TAG_KEYWORDS)
+        );
+    }
+
+    public function testThatDescriptionTagsCanBeReturned(): void
+    {
+        $pathToFile = '/tmp/test.jpg';
+
+        $this->fileSystemMock->shouldReceive('isFile')
+            ->once()
+            ->with($pathToFile)
+            ->andReturnTrue();
+
+        $this->imageMock->shouldReceive('getIptcTags')
+            ->once()
+            ->with($pathToFile)
+            ->andReturn(\json_decode('{"2#001":["\u001b%G"],"2#000":["\u0000\u0004"],"2#055":["20180328"],"2#060":["124126"],"2#062":["20180328"],"2#063":["124126"],"2#080":["IGOR BUDASOV"],"2#025":["norway","scandinavia","spring"],"2#120":["Spring in Norway: a large mountain in the background"]}', true));
+
+        $this->manager->setPathToFile($pathToFile);
+
+        self::assertEquals(
+            \json_decode('["Spring in Norway: a large mountain in the background"]'),
+            $this->manager->getTagValue(Manager::TAG_DESCRIPTION)
+        );
+    }
+
+    public function testThatAuthorTagsCanBeReturned(): void
+    {
+        $pathToFile = '/tmp/test.jpg';
+
+        $this->fileSystemMock->shouldReceive('isFile')
+            ->once()
+            ->with($pathToFile)
+            ->andReturnTrue();
+
+        $this->imageMock->shouldReceive('getIptcTags')
+            ->once()
+            ->with($pathToFile)
+            ->andReturn(\json_decode('{"2#001":["\u001b%G"],"2#000":["\u0000\u0004"],"2#055":["20180328"],"2#060":["124126"],"2#062":["20180328"],"2#063":["124126"],"2#080":["IGOR BUDASOV"],"2#025":["norway","scandinavia","spring"],"2#120":["Spring in Norway: a large mountain in the background"]}', true));
+
+        $this->manager->setPathToFile($pathToFile);
+
+        self::assertEquals(
+            \json_decode('["IGOR BUDASOV"]'),
+            $this->manager->getTagValue(Manager::TAG_AUTHOR)
+        );
+    }
 }

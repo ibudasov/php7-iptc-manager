@@ -9,6 +9,10 @@ use iBudasov\Iptc\Domain\Image;
 
 class Manager
 {
+    public const TAG_AUTHOR = '2#080';
+    public const TAG_KEYWORDS = '2#025';
+    public const TAG_DESCRIPTION = '2#120';
+
     private const SUPPORTED_FILE_TYPES = ['jpg', 'jpeg', 'pjpeg'];
 
     /**
@@ -68,5 +72,15 @@ class Manager
     public function getIptcTags(): array
     {
         return $this->iptcTags;
+    }
+
+    /**
+     * @param string $tagId
+     *
+     * @return array
+     */
+    public function getTagValue(string $tagId): array
+    {
+        return $this->iptcTags[$tagId];
     }
 }
