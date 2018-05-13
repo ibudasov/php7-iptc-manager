@@ -26,6 +26,9 @@ $manager = new Manager($fileSystem, $image);
 
 $manager->setPathToFile('/tmp/proper-file.jpg');
 
+// or
+$manager->getTagValue(Manager::TAG_AUTHOR)
+
 ```
 
 # ⚠️ Under construction, get back later!
