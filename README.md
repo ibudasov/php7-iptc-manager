@@ -25,9 +25,8 @@ $image = new StandardPhpImage();
 $manager = new Manager($fileSystem, $image);
 
 $manager->setPathToFile('/tmp/proper-file.jpg');
-
-// or
 $manager->getTagValue(Manager::TAG_AUTHOR)
+$manager->getTagValue(Manager::TAG_KEYWORDS)
 
 ```
 
