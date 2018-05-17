@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace iBudasov\Iptc\Tests\Domain;
+namespace iBudasov\Iptc\Tests\UnitDomain;
 
 use iBudasov\Iptc\Domain\Tag;
 use PHPUnit\Framework\TestCase;
