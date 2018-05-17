@@ -54,8 +54,8 @@ class Tag
     private $value;
 
     /**
-     * @param int    $typeOfTag
-     * @param string $codeOfTag
+     * @param int      $typeOfTag
+     * @param string   $codeOfTag
      * @param string[] $valuesOfTag
      */
     public function __construct(int $typeOfTag, string $codeOfTag, array $valuesOfTag)
@@ -82,7 +82,7 @@ class Tag
     }
 
     /**
-     * @return String[]
+     * @return string[]
      */
     public function getValues(): array
     {

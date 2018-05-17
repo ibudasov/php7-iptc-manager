@@ -97,7 +97,7 @@ class ManagerTest extends TestCase
             ->once()
             ->with($pathToFile)
             ->andReturn([
-                new Tag(2, '025', ["norway","scandinavia","spring"]),
+                new Tag(2, '025', ['norway', 'scandinavia', 'spring']),
             ]);
 
         $this->manager->setPathToFile($pathToFile);
@@ -119,7 +119,7 @@ class ManagerTest extends TestCase
             ->once()
             ->with($pathToFile)
             ->andReturn([
-                new Tag(2, '025', ["norway","scandinavia","spring"]),
+                new Tag(2, '025', ['norway', 'scandinavia', 'spring']),
             ]);
 
         $this->manager->setPathToFile($pathToFile);

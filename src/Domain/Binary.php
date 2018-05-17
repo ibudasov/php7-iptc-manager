@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace iBudasov\Iptc\Domain;
 
-
 class Binary
 {
     /**
      * @param Tag $tag
+     *
      * @return string
      */
     public function createBinaryStringFromTag(Tag $tag): string
