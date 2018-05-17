@@ -74,14 +74,11 @@ class Tag
     }
 
     /**
-     * That's right. Constructor receives string, and here we convert it to int.
-     * It's done because of '080' is having problems while passing as int.
-     *
-     * @return int
+     * @return string
      */
-    public function getCode(): int
+    public function getCode(): string
     {
-        return (int) $this->code;
+        return $this->code;
     }
 
     /**

@@ -291,7 +291,7 @@ class ManagerTest extends TestCase
         $this->imageMock->shouldReceive('getIptcTags')
             ->once()
             ->with($pathToFile)
-            ->andReturn([$tag]);
+            ->andReturn([]);
 
         $this->manager->setPathToFile($pathToFile);
 
@@ -340,5 +340,27 @@ class ManagerTest extends TestCase
         $this->manager->setPathToFile($pathToFile);
 
         $this->manager->deleteTag('080');
+    }
+
+    public function testThatExceptionIsThrownWhenTryingToOverwriteExistingTag(): void
+    {
+        $pathToFile = '/tmp/test.jpg';
+        $this->expectException(\LogicException::class);
+        $this->expectExceptionMessage(
+            'Trying to add tag with code \'080\' but it already exists in file ' . $pathToFile
+        );
+        $tag = new Tag(2, '080', ['AUTHOR NAME']);
+
+        $this->fileSystemMock->shouldReceive('isFile')
+            ->once()
+            ->with($pathToFile)
+            ->andReturnTrue();
+        $this->imageMock->shouldReceive('getIptcTags')
+            ->once()
+            ->with($pathToFile)
+            ->andReturn([$tag]);
+
+        $this->manager->setPathToFile($pathToFile);
+        $this->manager->addTag($tag);
     }
 }

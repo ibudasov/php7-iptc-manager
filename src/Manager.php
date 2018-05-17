@@ -69,6 +69,15 @@ class Manager
      */
     public function addTag(Tag $tag): void
     {
+        foreach ($this->tags as $key => $tag) {
+            if ($tag->getCode() == $tag->getCode()) {
+                throw new \LogicException(
+                    "Trying to add tag with code '{$tag->getCode()}' but it already exists in file "
+                     . $this->pathToFile
+                );
+            }
+        }
+
         $this->tags[] = $tag;
     }
 
@@ -77,8 +86,8 @@ class Manager
      */
     public function deleteTag(string $tagCode): void
     {
-        foreach ($this->tags as $key => $iptcTag) {
-            if ($iptcTag->getCode() === (int) $tagCode) {
+        foreach ($this->tags as $key => $tag) {
+            if ($tag->getCode() == $tagCode) {
                 unset($this->tags[$key]);
                 return;
             }
@@ -88,7 +97,6 @@ class Manager
             "Can not delete tag with code '$tagCode', because it does not exist in file "
             . $this->pathToFile
         );
-
     }
 
     /**
@@ -106,9 +114,9 @@ class Manager
      */
     public function getTag(string $tagCode): ?Tag
     {
-        foreach ($this->tags as $iptcTag) {
-            if ($iptcTag->getCode() == $tagCode) {
-                return $iptcTag;
+        foreach ($this->tags as $tag) {
+            if ($tag->getCode() == $tagCode) {
+                return $tag;
             }
         }
 
