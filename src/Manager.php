@@ -55,13 +55,21 @@ class Manager
      */
     public function setPathToFile(string $pathToFile): void
     {
-        $this->checkIfFileExists($pathToFile);
-
         $this->checkIfFileTypeIsSupported($pathToFile);
+
+        $this->checkIfFileExists($pathToFile);
 
         $this->pathToFile = $pathToFile;
 
         $this->tags = $this->image->getIptcTags($pathToFile);
+    }
+
+    /**
+     * @param Tag $tag
+     */
+    public function addTag(Tag $tag): void
+    {
+        $this->tags[] = $tag;
     }
 
     /**

@@ -279,4 +279,24 @@ class ManagerTest extends TestCase
 
         self::assertNull($this->manager->write());
     }
+
+    public function testThatTagCanBeAdded(): void
+    {
+        $pathToFile = '/tmp/test.jpg';
+        $tag = new Tag(2, '080', ['AUTHOR NAME']);
+        $this->fileSystemMock->shouldReceive('isFile')
+            ->once()
+            ->with($pathToFile)
+            ->andReturnTrue();
+        $this->imageMock->shouldReceive('getIptcTags')
+            ->once()
+            ->with($pathToFile)
+            ->andReturn([$tag]);
+
+        $this->manager->setPathToFile($pathToFile);
+
+        $this->manager->addTag($tag);
+
+        self::assertEquals('AUTHOR NAME', $this->manager->getTag('080'));
+    }
 }
