@@ -19,15 +19,23 @@ composer require ibudasov/php7-iptc-manager
 ```
 use iBudasov\Iptc\Infrastructure\StandardPhpFileSystem;
 use iBudasov\Iptc\Manager;
+use iBudasov\Iptc\Domain\Tag;
+use iBudasov\Iptc\Domain\Binary;
 
+// setting up
 $fileSystem = new StandardPhpFileSystem();
 $image = new StandardPhpImage();
-$manager = new Manager($fileSystem, $image);
+$binaryHelper = new Binary();
+$manager = new Manager($fileSystem, $image, $binaryHelper);
 
+// usage 
 $manager->setPathToFile('/tmp/proper-file.jpg');
-$manager->getTagValue(Manager::TAG_AUTHOR)
-$manager->getTagValue(Manager::TAG_KEYWORDS)
 
+$manager->addTag(new Tag(Tag::AUTHOR, ['IGOR BUDASOV']));
+
+$manager->getTag(Manager::TAG_AUTHOR)
+
+$manager->getTags();
+
+$manager->deleteTag(Tag::AUTHOR);
 ```
-
-# ⚠️ Under construction, get back later!
