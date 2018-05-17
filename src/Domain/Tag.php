@@ -6,9 +6,37 @@ namespace iBudasov\Iptc\Domain;
 
 class Tag
 {
-    public const AUTHOR = '080';
-    public const KEYWORDS = '025';
-    public const DESCRIPTION = '120';
+    const OBJECT_NAME = '005';
+    const EDIT_STATUS = '007';
+    const PRIORITY = '010';
+    const CATEGORY = '015';
+    const SUPPLEMENTAL_CATEGORY = '020';
+    const FIXTURE_IDENTIFIER = '022';
+    const KEYWORDS = '025';
+    const RELEASE_DATE = '030';
+    const RELEASE_TIME = '035';
+    const SPECIAL_INSTRUCTIONS = '040';
+    const REFERENCE_SERVICE = '045';
+    const REFERENCE_DATE = '047';
+    const REFERENCE_NUMBER = '050';
+    const CREATED_DATE = '055';
+    const CREATED_TIME = '060';
+    const ORIGINATING_PROGRAM = '065';
+    const PROGRAM_VERSION = '070';
+    const OBJECT_CYCLE = '075';
+    const AUTHOR = '080';
+    const CITY = '090';
+    const PROVINCE_STATE = '095';
+    const COUNTRY_CODE = '100';
+    const COUNTRY = '101';
+    const ORIGINAL_TRANSMISSION_REFERENCE = '103';
+    const HEADLINE = '105';
+    const CREDIT = '110';
+    const SOURCE = '115';
+    const COPYRIGHT_STRING = '116';
+    const DESCRIPTION = '120';
+    const LOCAL_CAPTION = '121';
+    const CAPTION_WRITER = '122';
 
     /**
      * @var int
@@ -28,13 +56,13 @@ class Tag
     /**
      * @param int    $typeOfTag
      * @param string $codeOfTag
-     * @param string $valueOfTag
+     * @param string[] $valuesOfTag
      */
-    public function __construct(int $typeOfTag = 2, string $codeOfTag, string $valueOfTag)
+    public function __construct(int $typeOfTag, string $codeOfTag, array $valuesOfTag)
     {
         $this->type = $typeOfTag;
         $this->code = $codeOfTag;
-        $this->value = $valueOfTag;
+        $this->value = $valuesOfTag;
     }
 
     /**
@@ -54,15 +82,15 @@ class Tag
     }
 
     /**
-     * @return string
+     * @return String[]
      */
-    public function getValue(): string
+    public function getValues(): array
     {
         return $this->value;
     }
 
     public function __toString()
     {
-        return $this->getValue();
+        return \implode(', ', $this->getValues());
     }
 }

@@ -74,6 +74,6 @@ class ManagerTest extends TestCase
     public function testThatAuthorTagCanBeReturned(): void
     {
         self::assertNull($this->manager->setPathToFile(__DIR__.'/proper-file.jpg'));
-        self::assertEquals('["IGOR BUDASOV"]', $this->manager->getTag(Tag::AUTHOR));
+        self::assertEquals('IGOR BUDASOV', $this->manager->getTag(Tag::AUTHOR));
     }
 }

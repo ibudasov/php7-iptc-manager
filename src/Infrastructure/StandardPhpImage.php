@@ -25,10 +25,6 @@ class StandardPhpImage implements Image
             $typeOfTag = (int) \reset($exploded);
             $codeOfTag = \end($exploded);
 
-            if (\is_array($valueOfTag)) {
-                $valueOfTag = \json_encode($valueOfTag);
-            }
-
             $results[] = new Tag($typeOfTag, $codeOfTag, $valueOfTag);
         }
 

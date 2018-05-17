@@ -97,7 +97,7 @@ class ManagerTest extends TestCase
             ->once()
             ->with($pathToFile)
             ->andReturn([
-                new Tag(2, '025', '["norway","scandinavia","spring"]'),
+                new Tag(2, '025', ["norway","scandinavia","spring"]),
             ]);
 
         $this->manager->setPathToFile($pathToFile);
@@ -119,13 +119,13 @@ class ManagerTest extends TestCase
             ->once()
             ->with($pathToFile)
             ->andReturn([
-                new Tag(2, '025', '["norway","scandinavia","spring"]'),
+                new Tag(2, '025', ["norway","scandinavia","spring"]),
             ]);
 
         $this->manager->setPathToFile($pathToFile);
 
         self::assertEquals(
-            '["norway","scandinavia","spring"]',
+            'norway, scandinavia, spring',
             $this->manager->getTag(Tag::KEYWORDS)
         );
     }
@@ -143,7 +143,7 @@ class ManagerTest extends TestCase
             ->once()
             ->with($pathToFile)
             ->andReturn([
-                new Tag(2, '120', 'some description'),
+                new Tag(2, '120', ['some description']),
             ]);
 
         $this->manager->setPathToFile($pathToFile);
@@ -167,7 +167,7 @@ class ManagerTest extends TestCase
             ->once()
             ->with($pathToFile)
             ->andReturn([
-                new Tag(2, '080', 'AUTHOR NAME'),
+                new Tag(2, '080', ['AUTHOR NAME']),
             ]);
 
         $this->manager->setPathToFile($pathToFile);
@@ -217,7 +217,7 @@ class ManagerTest extends TestCase
             ->once()
             ->with($pathToFile)
             ->andReturn([
-                new Tag(2, '080', 'AUTHOR NAME'),
+                new Tag(2, '080', ['AUTHOR NAME']),
             ]);
 
         $this->manager->setPathToFile($pathToFile);
