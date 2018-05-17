@@ -34,6 +34,7 @@ class StandardPhpImage implements Image
     /**
      * @param string $pathToFile
      * @param string $binaryStringToWrite
+     *
      * @return string
      */
     public function writeIptcTags(string $pathToFile, string $binaryStringToWrite): string

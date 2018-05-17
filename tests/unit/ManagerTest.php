@@ -207,7 +207,7 @@ class ManagerTest extends TestCase
         );
     }
 
-    public function testThatTagsAreEncodedAndWrittenToPicture(): void
+    public function testThatTagsAreEncodedAndWrittenToPictureFile(): void
     {
         $pathToFile = '/tmp/test.jpg';
         $tag = new Tag(2, '080', ['AUTHOR NAME']);
@@ -215,7 +215,7 @@ class ManagerTest extends TestCase
         $this->imageMock->shouldReceive('writeIptcTags')
             ->once()
             ->with($pathToFile, 'binary-string')
-            ->andReturnTrue();
+            ->andReturn('updated-binary-string');
 
         $this->fileSystemMock->shouldReceive('isFile')
             ->once()
@@ -232,6 +232,15 @@ class ManagerTest extends TestCase
             ->with($pathToFile)
             ->andReturn([$tag]);
 
+        $this->fileSystemMock->shouldReceive('deleteFile')
+            ->once()
+            ->with($pathToFile);
+
+        $this->fileSystemMock->shouldReceive('createFileWithBinaryContent')
+            ->once()
+            ->with($pathToFile, 'updated-binary-string')
+            ->andReturnTrue();
+
         $this->manager->setPathToFile($pathToFile);
 
         self::assertNull($this->manager->write());
@@ -242,7 +251,7 @@ class ManagerTest extends TestCase
         $pathToFile = '/tmp/test.jpg';
 
         $this->expectException(\Exception::class);
-        $this->expectExceptionMessage('Can not write IPTC tags to file: ' . $pathToFile);
+        $this->expectExceptionMessage('Can not write IPTC tags to file: '.$pathToFile);
 
         $tag = new Tag(2, '080', ['AUTHOR NAME']);
 
@@ -269,6 +278,5 @@ class ManagerTest extends TestCase
         $this->manager->setPathToFile($pathToFile);
 
         self::assertNull($this->manager->write());
-
     }
 }

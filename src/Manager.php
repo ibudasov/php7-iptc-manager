@@ -40,8 +40,8 @@ class Manager
 
     /**
      * @param FileSystem $fileSystem
-     * @param Image $image
-     * @param Binary $binary
+     * @param Image      $image
+     * @param Binary     $binary
      */
     public function __construct(FileSystem $fileSystem, Image $image, Binary $binary)
     {
@@ -106,8 +106,12 @@ class Manager
         }
 
         $updatedBinaryFileContent = $this->image->writeIptcTags($this->pathToFile, $binaryString);
-        if(empty($updatedBinaryFileContent)) {
-            throw new \Exception('Can not write IPTC tags to file: ' . $this->pathToFile);
+        if (empty($updatedBinaryFileContent)) {
+            throw new \Exception('Can not write IPTC tags to file: '.$this->pathToFile);
         }
+
+        $this->fileSystem->deleteFile($this->pathToFile);
+
+        $this->fileSystem->createFileWithBinaryContent($this->pathToFile, $updatedBinaryFileContent);
     }
 }

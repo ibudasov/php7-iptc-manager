@@ -12,4 +12,14 @@ class StandardPhpFileSystem implements FileSystem
     {
         return \file_exists($pathToFile);
     }
+
+    public function deleteFile(string $pathToFile): void
+    {
+        unset($pathToFile);
+    }
+
+    public function createFileWithBinaryContent(string $pathToFile, string $binaryContent): bool
+    {
+        return false !== \file_put_contents($pathToFile, $binaryContent);
+    }
 }
