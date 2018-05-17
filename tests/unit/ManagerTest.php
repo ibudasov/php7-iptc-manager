@@ -105,7 +105,7 @@ class ManagerTest extends TestCase
             ->once()
             ->with($pathToFile)
             ->andReturn([
-                new Tag(2, '025', ['norway', 'scandinavia', 'spring']),
+                new Tag('025', ['norway', 'scandinavia', 'spring']),
             ]);
 
         $this->manager->setPathToFile($pathToFile);
@@ -127,7 +127,7 @@ class ManagerTest extends TestCase
             ->once()
             ->with($pathToFile)
             ->andReturn([
-                new Tag(2, '025', ['norway', 'scandinavia', 'spring']),
+                new Tag('025', ['norway', 'scandinavia', 'spring']),
             ]);
 
         $this->manager->setPathToFile($pathToFile);
@@ -151,7 +151,7 @@ class ManagerTest extends TestCase
             ->once()
             ->with($pathToFile)
             ->andReturn([
-                new Tag(2, '120', ['some description']),
+                new Tag('120', ['some description']),
             ]);
 
         $this->manager->setPathToFile($pathToFile);
@@ -175,7 +175,7 @@ class ManagerTest extends TestCase
             ->once()
             ->with($pathToFile)
             ->andReturn([
-                new Tag(2, '080', ['AUTHOR NAME']),
+                new Tag('080', ['AUTHOR NAME']),
             ]);
 
         $this->manager->setPathToFile($pathToFile);
@@ -210,7 +210,7 @@ class ManagerTest extends TestCase
     public function testThatTagsAreEncodedAndWrittenToPictureFile(): void
     {
         $pathToFile = '/tmp/test.jpg';
-        $tag = new Tag(2, '080', ['AUTHOR NAME']);
+        $tag = new Tag('080', ['AUTHOR NAME']);
 
         $this->imageMock->shouldReceive('writeIptcTags')
             ->once()
@@ -253,7 +253,7 @@ class ManagerTest extends TestCase
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Can not write IPTC tags to file: '.$pathToFile);
 
-        $tag = new Tag(2, '080', ['AUTHOR NAME']);
+        $tag = new Tag('080', ['AUTHOR NAME']);
 
         $this->imageMock->shouldReceive('writeIptcTags')
             ->once()
@@ -283,7 +283,7 @@ class ManagerTest extends TestCase
     public function testThatTagCanBeAdded(): void
     {
         $pathToFile = '/tmp/test.jpg';
-        $tag = new Tag(2, '080', ['AUTHOR NAME']);
+        $tag = new Tag('080', ['AUTHOR NAME']);
         $this->fileSystemMock->shouldReceive('isFile')
             ->once()
             ->with($pathToFile)
@@ -303,7 +303,7 @@ class ManagerTest extends TestCase
     public function testThatTagCanBeDeleted(): void
     {
         $pathToFile = '/tmp/test.jpg';
-        $tag = new Tag(2, '080', ['AUTHOR NAME']);
+        $tag = new Tag('080', ['AUTHOR NAME']);
         $this->fileSystemMock->shouldReceive('isFile')
             ->once()
             ->with($pathToFile)
@@ -349,7 +349,7 @@ class ManagerTest extends TestCase
         $this->expectExceptionMessage(
             'Trying to add tag with code \'080\' but it already exists in file ' . $pathToFile
         );
-        $tag = new Tag(2, '080', ['AUTHOR NAME']);
+        $tag = new Tag('080', ['AUTHOR NAME']);
 
         $this->fileSystemMock->shouldReceive('isFile')
             ->once()

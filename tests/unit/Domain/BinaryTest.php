@@ -14,7 +14,7 @@ class BinaryTest extends TestCase
     {
         $binary = new Binary();
 
-        $tag = new Tag(2, Tag::AUTHOR, ['IGOR BUDASOV']);
+        $tag = new Tag(Tag::AUTHOR, ['IGOR BUDASOV']);
 
         self::assertInternalType('string', $binary->createBinaryStringFromTag($tag));
     }

@@ -6,6 +6,8 @@ namespace iBudasov\Iptc\Domain;
 
 class Tag
 {
+    const TYPE = 2;
+
     const OBJECT_NAME = '005';
     const EDIT_STATUS = '007';
     const PRIORITY = '010';
@@ -39,11 +41,6 @@ class Tag
     const CAPTION_WRITER = '122';
 
     /**
-     * @var int
-     */
-    private $type;
-
-    /**
      * @var string which will be converted to int later
      */
     private $code;
@@ -54,23 +51,13 @@ class Tag
     private $value;
 
     /**
-     * @param int      $typeOfTag
      * @param string   $codeOfTag
      * @param string[] $valuesOfTag
      */
-    public function __construct(int $typeOfTag, string $codeOfTag, array $valuesOfTag)
+    public function __construct(string $codeOfTag, array $valuesOfTag)
     {
-        $this->type = $typeOfTag;
         $this->code = $codeOfTag;
         $this->value = $valuesOfTag;
-    }
-
-    /**
-     * @return int
-     */
-    public function getType(): int
-    {
-        return $this->type;
     }
 
     /**
