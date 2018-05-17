@@ -6,6 +6,7 @@ namespace iBudasov\Iptc\Tests\end2end;
 
 use iBudasov\Iptc\Domain\FileSystem;
 use iBudasov\Iptc\Domain\Image;
+use iBudasov\Iptc\Domain\Tag;
 use iBudasov\Iptc\Infrastructure\StandardPhpFileSystem;
 use iBudasov\Iptc\Infrastructure\StandardPhpImage;
 use iBudasov\Iptc\Manager;
@@ -17,10 +18,12 @@ class ManagerTest extends TestCase
      * @var FileSystem
      */
     private $fileSystem;
+
     /**
      * @var Image
      */
     private $image;
+
     /**
      * @var Manager
      */
@@ -57,20 +60,20 @@ class ManagerTest extends TestCase
     public function testThatAllTheExistingTagsCanBeParsedAndReturned(): void
     {
         self::assertNull($this->manager->setPathToFile(__DIR__.'/proper-file.jpg'));
-        self::assertInternalType('array', $this->manager->getIptcTags());
-        self::assertArrayHasKey('2#025', $this->manager->getIptcTags());
+        self::assertInternalType('array', $this->manager->getTags());
+        self::assertInstanceOf(Tag::class, \current($this->manager->getTags()));
     }
 
     public function testThatArrayIsReturnedWhenThereAreNoTags(): void
     {
         self::assertNull($this->manager->setPathToFile(__DIR__.'/no-tags.jpg'));
-        self::assertInternalType('array', $this->manager->getIptcTags());
-        self::assertEmpty($this->manager->getIptcTags());
+        self::assertInternalType('array', $this->manager->getTags());
+        self::assertEmpty($this->manager->getTags());
     }
 
     public function testThatAuthorTagCanBeReturned(): void
     {
         self::assertNull($this->manager->setPathToFile(__DIR__.'/proper-file.jpg'));
-        self::assertEquals(['IGOR BUDASOV'], $this->manager->getTagValue(Manager::TAG_AUTHOR));
+        self::assertEquals('["IGOR BUDASOV"]', $this->manager->getTag(Tag::AUTHOR));
     }
 }

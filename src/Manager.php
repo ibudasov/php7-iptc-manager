@@ -6,13 +6,10 @@ namespace iBudasov\Iptc;
 
 use iBudasov\Iptc\Domain\FileSystem;
 use iBudasov\Iptc\Domain\Image;
+use iBudasov\Iptc\Domain\Tag;
 
 class Manager
 {
-    public const TAG_AUTHOR = '2#080';
-    public const TAG_KEYWORDS = '2#025';
-    public const TAG_DESCRIPTION = '2#120';
-
     private const SUPPORTED_FILE_TYPES = ['jpg', 'jpeg', 'pjpeg'];
 
     /**
@@ -31,7 +28,7 @@ class Manager
     private $image;
 
     /**
-     * @var array
+     * @var Tag[]
      */
     private $iptcTags;
 
@@ -67,20 +64,31 @@ class Manager
     }
 
     /**
-     * @return array
+     * @return Tag[]
      */
-    public function getIptcTags(): array
+    public function getTags(): array
     {
         return $this->iptcTags;
     }
 
     /**
-     * @param string $tagId
+     * @param string $tagCode
      *
-     * @return array
+     * @return Tag|null
      */
-    public function getTagValue(string $tagId): array
+    public function getTag(string $tagCode): ?Tag
     {
-        return $this->iptcTags[$tagId];
+        foreach ($this->iptcTags as $iptcTag) {
+            if ($iptcTag->getCode() == $tagCode) {
+                return $iptcTag;
+            }
+        }
+
+        return null;
+    }
+
+    public function write(): void
+    {
+        $updatedBinaryFileContent = $this->image->writeIptcTags($this->pathToFile, 'ook');
     }
 }
