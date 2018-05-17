@@ -8,6 +8,8 @@ use iBudasov\Iptc\Domain\Binary;
 use iBudasov\Iptc\Domain\FileSystem;
 use iBudasov\Iptc\Domain\Image;
 use iBudasov\Iptc\Domain\Tag;
+use iBudasov\Iptc\Infrastructure\StandardPhpFileSystem;
+use iBudasov\Iptc\Infrastructure\StandardPhpImage;
 
 class Manager
 {
@@ -50,6 +52,15 @@ class Manager
         $this->binary = $binary;
     }
 
+    public static function create(): self
+    {
+        $fileSystem = new StandardPhpFileSystem();
+        $image = new StandardPhpImage();
+        $binaryHelper = new Binary();
+
+        return new self($fileSystem, $image, $binaryHelper);
+    }
+
     /**
      * @param string $pathToFile
      */
@@ -73,7 +84,7 @@ class Manager
             if ($tag->getCode() == $tag->getCode()) {
                 throw new \LogicException(
                     "Trying to add tag with code '{$tag->getCode()}' but it already exists in file "
-                     . $this->pathToFile
+                     .$this->pathToFile
                 );
             }
         }
@@ -89,13 +100,14 @@ class Manager
         foreach ($this->tags as $key => $tag) {
             if ($tag->getCode() == $tagCode) {
                 unset($this->tags[$key]);
+
                 return;
             }
         }
 
         throw new \InvalidArgumentException(
             "Can not delete tag with code '$tagCode', because it does not exist in file "
-            . $this->pathToFile
+            .$this->pathToFile
         );
     }
 
@@ -151,7 +163,7 @@ class Manager
         $fileExtension = \pathinfo($pathToFile, PATHINFO_EXTENSION);
         if (!\in_array($fileExtension, self::SUPPORTED_FILE_TYPES)) {
             throw new \InvalidArgumentException(
-                'Supported file types are: ' . \json_encode(self::SUPPORTED_FILE_TYPES)
+                'Supported file types are: '.\json_encode(self::SUPPORTED_FILE_TYPES)
             );
         }
     }

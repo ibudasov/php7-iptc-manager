@@ -21,11 +21,9 @@ class StandardPhpImage implements Image
         $results = [];
         foreach ($foundTags as $key => $valueOfTag) {
             $exploded = \explode('#', $key);
-
-            $typeOfTag = (int) \reset($exploded);
             $codeOfTag = \end($exploded);
 
-            $results[] = new Tag($typeOfTag, $codeOfTag, $valueOfTag);
+            $results[] = new Tag($codeOfTag, $valueOfTag);
         }
 
         return $results;

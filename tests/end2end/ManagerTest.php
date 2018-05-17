@@ -4,44 +4,20 @@ declare(strict_types=1);
 
 namespace iBudasov\Iptc\Tests\End2end;
 
-use iBudasov\Iptc\Domain\Binary;
-use iBudasov\Iptc\Domain\FileSystem;
-use iBudasov\Iptc\Domain\Image;
 use iBudasov\Iptc\Domain\Tag;
-use iBudasov\Iptc\Infrastructure\StandardPhpFileSystem;
-use iBudasov\Iptc\Infrastructure\StandardPhpImage;
 use iBudasov\Iptc\Manager;
 use PHPUnit\Framework\TestCase;
 
 class ManagerTest extends TestCase
 {
     /**
-     * @var FileSystem
-     */
-    private $fileSystem;
-
-    /**
-     * @var Image
-     */
-    private $image;
-
-    /**
      * @var Manager
      */
     private $manager;
 
-    /**
-     * @var Binary
-     */
-    private $binary;
-
     protected function setUp(): void
     {
-        $this->fileSystem = new StandardPhpFileSystem();
-        $this->image = new StandardPhpImage();
-        $this->binary = new Binary();
-
-        $this->manager = new Manager($this->fileSystem, $this->image, $this->binary);
+        $this->manager = Manager::create();
     }
 
     public function testThatExceptionIsThrownWhenExtensionOfFileIsNotSupported(): void

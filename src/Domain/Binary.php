@@ -16,7 +16,7 @@ class Binary
         //beginning of the binary string
         $beginningOfTheBinaryString = \chr(0x1c)
             .\chr(Tag::TYPE)
-            .\chr($tag->getCode());
+            .\chr((int) $tag->getCode());
 
         $binaryString = '';
         foreach ($tag->getValues() as $value) {

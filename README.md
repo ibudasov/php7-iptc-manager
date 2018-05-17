@@ -17,16 +17,9 @@ composer require ibudasov/php7-iptc-manager
 
 # usage
 ```
-use iBudasov\Iptc\Infrastructure\StandardPhpFileSystem;
-use iBudasov\Iptc\Manager;
-use iBudasov\Iptc\Domain\Tag;
-use iBudasov\Iptc\Domain\Binary;
-
 // setting up
-$fileSystem = new StandardPhpFileSystem();
-$image = new StandardPhpImage();
-$binaryHelper = new Binary();
-$manager = new Manager($fileSystem, $image, $binaryHelper);
+use iBudasov\Iptc\Manager;
+$manager = Manager::create();
 
 // usage 
 $manager->setPathToFile('/tmp/proper-file.jpg');

@@ -47,6 +47,12 @@ class ManagerTest extends TestCase
         );
     }
 
+    public function testThatManagerCanBeStaticallyCreated(): void
+    {
+        $manager = Manager::create();
+        self::assertInstanceOf(Manager::class, $manager);
+    }
+
     public function testThatClassCanBeInstantiated(): void
     {
         self::assertInstanceOf(Manager::class, $this->manager);
@@ -325,7 +331,7 @@ class ManagerTest extends TestCase
         $pathToFile = '/tmp/test.jpg';
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage(
-            'Can not delete tag with code \'080\', because it does not exist in file ' . $pathToFile
+            'Can not delete tag with code \'080\', because it does not exist in file '.$pathToFile
         );
 
         $this->fileSystemMock->shouldReceive('isFile')
@@ -347,7 +353,7 @@ class ManagerTest extends TestCase
         $pathToFile = '/tmp/test.jpg';
         $this->expectException(\LogicException::class);
         $this->expectExceptionMessage(
-            'Trying to add tag with code \'080\' but it already exists in file ' . $pathToFile
+            'Trying to add tag with code \'080\' but it already exists in file '.$pathToFile
         );
         $tag = new Tag('080', ['AUTHOR NAME']);
 
