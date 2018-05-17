@@ -73,6 +73,25 @@ class Manager
     }
 
     /**
+     * @param string $tagCode
+     */
+    public function deleteTag(string $tagCode): void
+    {
+        foreach ($this->tags as $key => $iptcTag) {
+            if ($iptcTag->getCode() === (int) $tagCode) {
+                unset($this->tags[$key]);
+                return;
+            }
+        }
+
+        throw new \InvalidArgumentException(
+            "Can not delete tag with code '$tagCode', because it does not exist in file "
+            . $this->pathToFile
+        );
+
+    }
+
+    /**
      * @return Tag[]
      */
     public function getTags(): array

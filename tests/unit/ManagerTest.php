@@ -299,4 +299,46 @@ class ManagerTest extends TestCase
 
         self::assertEquals('AUTHOR NAME', $this->manager->getTag('080'));
     }
+
+    public function testThatTagCanBeDeleted(): void
+    {
+        $pathToFile = '/tmp/test.jpg';
+        $tag = new Tag(2, '080', ['AUTHOR NAME']);
+        $this->fileSystemMock->shouldReceive('isFile')
+            ->once()
+            ->with($pathToFile)
+            ->andReturnTrue();
+        $this->imageMock->shouldReceive('getIptcTags')
+            ->once()
+            ->with($pathToFile)
+            ->andReturn([$tag]);
+
+        $this->manager->setPathToFile($pathToFile);
+
+        $this->manager->deleteTag('080');
+
+        self::assertNull($this->manager->getTag('080'));
+    }
+
+    public function testThatExceptionIsThrownWhenTryingToDeleteNonExistingTag(): void
+    {
+        $pathToFile = '/tmp/test.jpg';
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage(
+            'Can not delete tag with code \'080\', because it does not exist in file ' . $pathToFile
+        );
+
+        $this->fileSystemMock->shouldReceive('isFile')
+            ->once()
+            ->with($pathToFile)
+            ->andReturnTrue();
+        $this->imageMock->shouldReceive('getIptcTags')
+            ->once()
+            ->with($pathToFile)
+            ->andReturn([]);
+
+        $this->manager->setPathToFile($pathToFile);
+
+        $this->manager->deleteTag('080');
+    }
 }
