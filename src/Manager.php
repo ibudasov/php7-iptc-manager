@@ -36,7 +36,7 @@ class Manager
     /**
      * @var Tag[]
      */
-    private $iptcTags;
+    private $tags;
 
     /**
      * @param FileSystem $fileSystem
@@ -55,20 +55,13 @@ class Manager
      */
     public function setPathToFile(string $pathToFile): void
     {
-        $fileExtension = \pathinfo($pathToFile, PATHINFO_EXTENSION);
-        if (!\in_array($fileExtension, self::SUPPORTED_FILE_TYPES)) {
-            throw new \InvalidArgumentException(
-                    'Supported file types are: '.\json_encode(self::SUPPORTED_FILE_TYPES)
-            );
-        }
+        $this->checkIfFileExists($pathToFile);
 
-        if (false === $this->fileSystem->isFile($pathToFile)) {
-            throw new \InvalidArgumentException('File not found');
-        }
+        $this->checkIfFileTypeIsSupported($pathToFile);
 
         $this->pathToFile = $pathToFile;
 
-        $this->iptcTags = $this->image->getIptcTags($pathToFile);
+        $this->tags = $this->image->getIptcTags($pathToFile);
     }
 
     /**
@@ -76,7 +69,7 @@ class Manager
      */
     public function getTags(): array
     {
-        return $this->iptcTags;
+        return $this->tags;
     }
 
     /**
@@ -86,7 +79,7 @@ class Manager
      */
     public function getTag(string $tagCode): ?Tag
     {
-        foreach ($this->iptcTags as $iptcTag) {
+        foreach ($this->tags as $iptcTag) {
             if ($iptcTag->getCode() == $tagCode) {
                 return $iptcTag;
             }
@@ -101,7 +94,7 @@ class Manager
     public function write(): void
     {
         $binaryString = '';
-        foreach ($this->iptcTags as $tag) {
+        foreach ($this->tags as $tag) {
             $binaryString .= $this->binary->createBinaryStringFromTag($tag);
         }
 
@@ -113,5 +106,28 @@ class Manager
         $this->fileSystem->deleteFile($this->pathToFile);
 
         $this->fileSystem->createFileWithBinaryContent($this->pathToFile, $updatedBinaryFileContent);
+    }
+
+    /**
+     * @param string $pathToFile
+     */
+    private function checkIfFileTypeIsSupported(string $pathToFile): void
+    {
+        $fileExtension = \pathinfo($pathToFile, PATHINFO_EXTENSION);
+        if (!\in_array($fileExtension, self::SUPPORTED_FILE_TYPES)) {
+            throw new \InvalidArgumentException(
+                'Supported file types are: ' . \json_encode(self::SUPPORTED_FILE_TYPES)
+            );
+        }
+    }
+
+    /**
+     * @param string $pathToFile
+     */
+    private function checkIfFileExists(string $pathToFile): void
+    {
+        if (false === $this->fileSystem->isFile($pathToFile)) {
+            throw new \InvalidArgumentException('File not found');
+        }
     }
 }
