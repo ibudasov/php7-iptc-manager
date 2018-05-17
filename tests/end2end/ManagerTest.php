@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-namespace iBudasov\Iptc\Tests\end2end;
+namespace iBudasov\Iptc\Tests\End2end;
 
+use iBudasov\Iptc\Domain\Binary;
 use iBudasov\Iptc\Domain\FileSystem;
 use iBudasov\Iptc\Domain\Image;
 use iBudasov\Iptc\Domain\Tag;
@@ -29,11 +30,18 @@ class ManagerTest extends TestCase
      */
     private $manager;
 
+    /**
+     * @var Binary
+     */
+    private $binary;
+
     protected function setUp(): void
     {
         $this->fileSystem = new StandardPhpFileSystem();
         $this->image = new StandardPhpImage();
-        $this->manager = new Manager($this->fileSystem, $this->image);
+        $this->binary = new Binary();
+
+        $this->manager = new Manager($this->fileSystem, $this->image, $this->binary);
     }
 
     public function testThatExceptionIsThrownWhenExtensionOfFileIsNotSupported(): void
@@ -75,5 +83,12 @@ class ManagerTest extends TestCase
     {
         self::assertNull($this->manager->setPathToFile(__DIR__.'/proper-file.jpg'));
         self::assertEquals('IGOR BUDASOV', $this->manager->getTag(Tag::AUTHOR));
+    }
+
+    public function testThatTagsCanBeWritten(): void
+    {
+        self::assertNull($this->manager->setPathToFile(__DIR__.'/proper-file.jpg'));
+        self::assertEquals('IGOR BUDASOV', $this->manager->getTag(Tag::AUTHOR));
+        $this->manager->write();
     }
 }

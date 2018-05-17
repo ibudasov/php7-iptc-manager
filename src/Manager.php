@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace iBudasov\Iptc;
 
+use iBudasov\Iptc\Domain\Binary;
 use iBudasov\Iptc\Domain\FileSystem;
 use iBudasov\Iptc\Domain\Image;
 use iBudasov\Iptc\Domain\Tag;
@@ -28,18 +29,25 @@ class Manager
     private $image;
 
     /**
+     * @var Binary
+     */
+    private $binary;
+
+    /**
      * @var Tag[]
      */
     private $iptcTags;
 
     /**
      * @param FileSystem $fileSystem
-     * @param Image      $image
+     * @param Image $image
+     * @param Binary $binary
      */
-    public function __construct(FileSystem $fileSystem, Image $image)
+    public function __construct(FileSystem $fileSystem, Image $image, Binary $binary)
     {
         $this->fileSystem = $fileSystem;
         $this->image = $image;
+        $this->binary = $binary;
     }
 
     /**
@@ -87,8 +95,19 @@ class Manager
         return null;
     }
 
+    /**
+     * @throws \Exception
+     */
     public function write(): void
     {
-        $updatedBinaryFileContent = $this->image->writeIptcTags($this->pathToFile, 'ook');
+        $binaryString = '';
+        foreach ($this->iptcTags as $tag) {
+            $binaryString .= $this->binary->createBinaryStringFromTag($tag);
+        }
+
+        $updatedBinaryFileContent = $this->image->writeIptcTags($this->pathToFile, $binaryString);
+        if(empty($updatedBinaryFileContent)) {
+            throw new \Exception('Can not write IPTC tags to file: ' . $this->pathToFile);
+        }
     }
 }

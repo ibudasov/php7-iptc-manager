@@ -34,12 +34,12 @@ class StandardPhpImage implements Image
     /**
      * @param string $pathToFile
      * @param string $binaryStringToWrite
-     *
-     * @return string Binary string of file content
+     * @return string
      */
     public function writeIptcTags(string $pathToFile, string $binaryStringToWrite): string
     {
-        // TODO: Implement writeIptcTags() method.
+        //@see http://php.net/manual/pt_BR/function.iptcembed.php
+        return (string) \iptcembed($binaryStringToWrite, $pathToFile, 0);
     }
 
     /**

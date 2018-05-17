@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-namespace iBudasov\Iptc\Tests;
+namespace iBudasov\Iptc\Tests\Unit;
 
+use iBudasov\Iptc\Domain\Binary;
 use iBudasov\Iptc\Domain\FileSystem;
 use iBudasov\Iptc\Domain\Image;
 use iBudasov\Iptc\Domain\Tag;
@@ -28,14 +29,21 @@ class ManagerTest extends TestCase
      */
     private $imageMock;
 
+    /**
+     * @var Binary|MockInterface
+     */
+    private $binaryMock;
+
     protected function setUp(): void
     {
         $this->fileSystemMock = \Mockery::mock(FileSystem::class);
         $this->imageMock = \Mockery::mock(Image::class);
+        $this->binaryMock = \Mockery::mock(Binary::class);
 
         $this->manager = new Manager(
             $this->fileSystemMock,
-            $this->imageMock
+            $this->imageMock,
+            $this->binaryMock
         );
     }
 
@@ -202,10 +210,11 @@ class ManagerTest extends TestCase
     public function testThatTagsAreEncodedAndWrittenToPicture(): void
     {
         $pathToFile = '/tmp/test.jpg';
+        $tag = new Tag(2, '080', ['AUTHOR NAME']);
 
         $this->imageMock->shouldReceive('writeIptcTags')
             ->once()
-            ->with($pathToFile, 'ook')
+            ->with($pathToFile, 'binary-string')
             ->andReturnTrue();
 
         $this->fileSystemMock->shouldReceive('isFile')
@@ -213,15 +222,53 @@ class ManagerTest extends TestCase
             ->with($pathToFile)
             ->andReturnTrue();
 
+        $this->binaryMock->shouldReceive('createBinaryStringFromTag')
+            ->once()
+            ->with($tag)
+            ->andReturn('binary-string');
+
         $this->imageMock->shouldReceive('getIptcTags')
             ->once()
             ->with($pathToFile)
-            ->andReturn([
-                new Tag(2, '080', ['AUTHOR NAME']),
-            ]);
+            ->andReturn([$tag]);
 
         $this->manager->setPathToFile($pathToFile);
 
         self::assertNull($this->manager->write());
+    }
+
+    public function testThatExceptionIsThrownIfCanNotCreateANewBinaryStringWithNewTags(): void
+    {
+        $pathToFile = '/tmp/test.jpg';
+
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Can not write IPTC tags to file: ' . $pathToFile);
+
+        $tag = new Tag(2, '080', ['AUTHOR NAME']);
+
+        $this->imageMock->shouldReceive('writeIptcTags')
+            ->once()
+            ->with($pathToFile, 'binary-string')
+            ->andReturn('');
+
+        $this->fileSystemMock->shouldReceive('isFile')
+            ->once()
+            ->with($pathToFile)
+            ->andReturnTrue();
+
+        $this->binaryMock->shouldReceive('createBinaryStringFromTag')
+            ->once()
+            ->with($tag)
+            ->andReturn('binary-string');
+
+        $this->imageMock->shouldReceive('getIptcTags')
+            ->once()
+            ->with($pathToFile)
+            ->andReturn([$tag]);
+
+        $this->manager->setPathToFile($pathToFile);
+
+        self::assertNull($this->manager->write());
+
     }
 }
