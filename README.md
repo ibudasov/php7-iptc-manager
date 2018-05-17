@@ -5,30 +5,79 @@
 [![CircleCI](https://circleci.com/gh/ibudasov/php7-iptc-manager.svg?style=svg)](https://circleci.com/gh/ibudasov/php7-iptc-manager)
 
 # why and what is it?
-Recently I've been trying to create/read/update IPTC tags from PHP7 environment 
-and found out that all the available libraries suck a lot.
+[IPTC tags](https://iptc.org) are tags, which you can include in a picture you have taken (remember Instagram?)
 
-So, here is my solution, which gonna suck a little bit less! 
+This library provides simple interface to do that, because standard PHP way sucks a lot.
+
+So, let's get started! 
 
 # installation
+
+Installation is quite typical - with composer: 
 ```
 composer require ibudasov/php7-iptc-manager
 ```
 
 # usage
+
+Before usage you have to create the IPTC tags manager:
 ```
-// setting up
+// import the Manager class
 use iBudasov\Iptc\Manager;
+
+// ... and instantiate it!
 $manager = Manager::create();
+```
 
-// usage 
+Once you have an instance of the Manager - you'll need to specify the file to work with.
+`['jpg', 'jpeg', 'pjpeg']` file types are supported, and if you try to feet something else - exception will be thrown
+
+```
 $manager->setPathToFile('/tmp/proper-file.jpg');
+```
 
+
+
+### Create an IPTC tag
+Then you can add some IPTC tags. 
+
+There are different kinds of IPTC tags, but for all of the you'll find a constant in `Tag` class.
+
+You can specify multiple values for each tag, it is allowed by specification, so we have array of values:
+
+```
 $manager->addTag(new Tag(Tag::AUTHOR, ['IGOR BUDASOV']));
+```
 
-$manager->getTag(Manager::TAG_AUTHOR)
+If a tag with the same name already exists - an exception will be thrown, so you can use `Manager::deleteTag()` to explicitly remove previous value.
 
+It was made to avoid accidental removing of data. Yes, we were thinking about safety of your data!
+
+### Read an IPTC tag
+
+Once you `setPathToFile()` all the included IPTC tags will be loaded to the Manager, so you can retrieve any tag by it's codename.
+
+If this tag doesn't exist - you'll experience an exception.
+```
+$manager->getTag(Tag::AUTHOR)
+```
+
+...or you can get them all at once!
+```
 $manager->getTags();
+```
 
+### Delete an IPTC tag
+
+Sometimes you want to delete a tag - here is the way.
+
+If you're trying to delete a tag which does not exist - exception will be thrown.
+```
 $manager->deleteTag(Tag::AUTHOR);
 ```
+
+
+### P.S.
+
+All the code is nicely covered by tests, but if you find a bug - feel free to contact me!
+
