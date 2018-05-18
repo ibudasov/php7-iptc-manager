@@ -4,21 +4,21 @@
 [![Test Coverage](https://api.codeclimate.com/v1/badges/8a0f32e9d6ff3948e4d6/test_coverage)](https://codeclimate.com/github/ibudasov/php7-iptc-manager/test_coverage)
 [![CircleCI](https://circleci.com/gh/ibudasov/php7-iptc-manager.svg?style=svg)](https://circleci.com/gh/ibudasov/php7-iptc-manager)
 
-# why and what is it?
+### Why and what is it
 [IPTC tags](https://iptc.org) are tags, which you can include in a picture you have taken (remember Instagram?)
 
 This library provides simple interface to do that, because standard PHP way sucks a lot.
 
 So, let's get started! 
 
-# installation
+### Installation
 
 Installation is quite typical - with composer: 
 ```
 composer require ibudasov/php7-iptc-manager
 ```
 
-# usage
+### How to use
 
 Before usage you have to create the IPTC tags manager:
 ```
@@ -30,7 +30,7 @@ $manager = Manager::create();
 ```
 
 Once you have an instance of the Manager - you'll need to specify the file to work with.
-`['jpg', 'jpeg', 'pjpeg']` file types are supported, and if you try to feet something else - exception will be thrown
+`['jpg', 'jpeg', 'pjpeg']` file types are supported, and if you try to feed something else - exception will be thrown
 
 ```
 $manager->setPathToFile('/tmp/proper-file.jpg');
@@ -41,7 +41,7 @@ $manager->setPathToFile('/tmp/proper-file.jpg');
 ### Create an IPTC tag
 Then you can add some IPTC tags. 
 
-There are different kinds of IPTC tags, but for all of the you'll find a constant in `Tag` class.
+There are different kinds of IPTC tags, but for all of them you'll find a constant in `Tag` class.
 
 You can specify multiple values for each tag, it is allowed by specification, so we have array of values:
 
