@@ -10,8 +10,8 @@ use PHPUnit\Framework\TestCase;
 
 class ManagerTest extends TestCase
 {
-    const PROPER_FILE = __DIR__ . '/proper-file.jpg';
-    const UNSUPPORTED_FILE = __DIR__ . 'unsupported-file.png';
+    const PROPER_FILE = __DIR__.'/proper-file.jpg';
+    const UNSUPPORTED_FILE = __DIR__.'unsupported-file.png';
 
     /**
      * @var Manager
@@ -99,7 +99,7 @@ class ManagerTest extends TestCase
     {
         $pathToFile = self::PROPER_FILE;
         $this->expectException(\LogicException::class);
-        $this->expectExceptionMessage('Trying to add tag with code \'080\' but it already exists in file ' . $pathToFile);
+        $this->expectExceptionMessage('Trying to add tag with code \'080\' but it already exists in file '.$pathToFile);
 
         $this->manager->loadFile(self::PROPER_FILE);
 
@@ -111,7 +111,7 @@ class ManagerTest extends TestCase
     {
         $pathToFile = self::PROPER_FILE;
         $this->expectException(\LogicException::class);
-        $this->expectExceptionMessage('Can not delete tag with code \'100\', because it does not exist in file ' . $pathToFile);
+        $this->expectExceptionMessage('Can not delete tag with code \'100\', because it does not exist in file '.$pathToFile);
 
         $this->manager->loadFile(self::PROPER_FILE);
         $this->manager->deleteTag(Tag::COUNTRY_CODE);

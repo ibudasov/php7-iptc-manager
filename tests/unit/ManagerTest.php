@@ -211,6 +211,7 @@ class ManagerTest extends TestCase
 
     /**
      * @doesNotPerformAssertions
+     *
      * @throws \Exception
      */
     public function testThatTagsAreEncodedAndWrittenToPictureFile(): void
