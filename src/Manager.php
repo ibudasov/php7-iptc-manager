@@ -76,20 +76,20 @@ class Manager
     }
 
     /**
-     * @param Tag $tag
+     * @param Tag $tagToAdd
      */
-    public function addTag(Tag $tag): void
+    public function addTag(Tag $tagToAdd): void
     {
-        foreach ($this->tags as $key => $tag) {
-            if ($tag->getCode() == $tag->getCode()) {
+        foreach ($this->tags as $key => $existingTag) {
+            if ($tagToAdd->getCode() == $existingTag->getCode()) {
                 throw new \LogicException(
-                    "Trying to add tag with code '{$tag->getCode()}' but it already exists in file "
+                    "Trying to add tag with code '{$tagToAdd->getCode()}' but it already exists in file "
                      .$this->pathToFile
                 );
             }
         }
 
-        $this->tags[] = $tag;
+        $this->tags[] = $tagToAdd;
     }
 
     /**

@@ -65,4 +65,52 @@ class ManagerTest extends TestCase
         self::assertEquals('IGOR BUDASOV', $this->manager->getTag(Tag::AUTHOR));
         $this->manager->write();
     }
+
+    /**
+     * @throws \Exception
+     */
+    public function testThatTagCanBeDeleted(): void
+    {
+        $this->manager->loadFile(__DIR__.'/proper-file.jpg');
+        $this->manager->deleteTag(Tag::AUTHOR);
+        self::assertNull($this->manager->getTag(Tag::AUTHOR));
+        $this->manager->write();
+    }
+
+    /**
+     * @throws \Exception
+     */
+    public function testThatTagCanBeAdded(): void
+    {
+        $this->manager->loadFile(__DIR__.'/proper-file.jpg');
+
+        $tag = new Tag(Tag::AUTHOR, ['IGOR BUDASOV']);
+        $this->manager->addTag($tag);
+
+        $this->manager->write();
+
+        self::assertEquals('IGOR BUDASOV', $this->manager->getTag(Tag::AUTHOR));
+    }
+
+    public function testThatExceptionWillBeThrownWhenAddingTagWhichAlreadyExists(): void
+    {
+        $pathToFile = __DIR__.'/proper-file.jpg';
+        $this->expectException(\LogicException::class);
+        $this->expectExceptionMessage('Trying to add tag with code \'080\' but it already exists in file ' . $pathToFile);
+
+        $this->manager->loadFile(__DIR__.'/proper-file.jpg');
+
+        $tag = new Tag(Tag::AUTHOR, ['IGOR BUDASOV']);
+        $this->manager->addTag($tag);
+    }
+
+    public function testThatExceptionIsThrownWhenTryingToDeleteTagWhichDoesNotExist(): void
+    {
+        $pathToFile = __DIR__.'/proper-file.jpg';
+        $this->expectException(\LogicException::class);
+        $this->expectExceptionMessage('Can not delete tag with code \'100\', because it does not exist in file ' . $pathToFile);
+
+        $this->manager->loadFile(__DIR__.'/proper-file.jpg');
+        $this->manager->deleteTag(Tag::COUNTRY_CODE);
+    }
 }
