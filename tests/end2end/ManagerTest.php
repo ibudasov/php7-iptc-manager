@@ -10,6 +10,9 @@ use PHPUnit\Framework\TestCase;
 
 class ManagerTest extends TestCase
 {
+    const PROPER_FILE = __DIR__ . '/proper-file.jpg';
+    const UNSUPPORTED_FILE = __DIR__ . 'unsupported-file.png';
+
     /**
      * @var Manager
      */
@@ -25,7 +28,7 @@ class ManagerTest extends TestCase
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Supported file types are: ["jpg","jpeg","pjpeg"]');
 
-        $this->manager->loadFile(__DIR__.'unsupported-file.png');
+        $this->manager->loadFile(self::UNSUPPORTED_FILE);
     }
 
     public function testThatExceptionIsThrownWhenFileDoesNotExist(): void
@@ -38,7 +41,7 @@ class ManagerTest extends TestCase
 
     public function testThatAllTheExistingTagsCanBeParsedAndReturned(): void
     {
-        $this->manager->loadFile(__DIR__.'/proper-file.jpg');
+        $this->manager->loadFile(self::PROPER_FILE);
         self::assertInternalType('array', $this->manager->getTags());
         self::assertInstanceOf(Tag::class, \current($this->manager->getTags()));
     }
@@ -52,7 +55,7 @@ class ManagerTest extends TestCase
 
     public function testThatAuthorTagCanBeReturned(): void
     {
-        $this->manager->loadFile(__DIR__.'/proper-file.jpg');
+        $this->manager->loadFile(self::PROPER_FILE);
         self::assertEquals('IGOR BUDASOV', $this->manager->getTag(Tag::AUTHOR));
     }
 
@@ -61,7 +64,7 @@ class ManagerTest extends TestCase
      */
     public function testThatTagsCanBeWritten(): void
     {
-        $this->manager->loadFile(__DIR__.'/proper-file.jpg');
+        $this->manager->loadFile(self::PROPER_FILE);
         self::assertEquals('IGOR BUDASOV', $this->manager->getTag(Tag::AUTHOR));
         $this->manager->write();
     }
@@ -71,7 +74,7 @@ class ManagerTest extends TestCase
      */
     public function testThatTagCanBeDeleted(): void
     {
-        $this->manager->loadFile(__DIR__.'/proper-file.jpg');
+        $this->manager->loadFile(self::PROPER_FILE);
         $this->manager->deleteTag(Tag::AUTHOR);
         self::assertNull($this->manager->getTag(Tag::AUTHOR));
         $this->manager->write();
@@ -82,7 +85,7 @@ class ManagerTest extends TestCase
      */
     public function testThatTagCanBeAdded(): void
     {
-        $this->manager->loadFile(__DIR__.'/proper-file.jpg');
+        $this->manager->loadFile(self::PROPER_FILE);
 
         $tag = new Tag(Tag::AUTHOR, ['IGOR BUDASOV']);
         $this->manager->addTag($tag);
@@ -94,11 +97,11 @@ class ManagerTest extends TestCase
 
     public function testThatExceptionWillBeThrownWhenAddingTagWhichAlreadyExists(): void
     {
-        $pathToFile = __DIR__.'/proper-file.jpg';
+        $pathToFile = self::PROPER_FILE;
         $this->expectException(\LogicException::class);
         $this->expectExceptionMessage('Trying to add tag with code \'080\' but it already exists in file ' . $pathToFile);
 
-        $this->manager->loadFile(__DIR__.'/proper-file.jpg');
+        $this->manager->loadFile(self::PROPER_FILE);
 
         $tag = new Tag(Tag::AUTHOR, ['IGOR BUDASOV']);
         $this->manager->addTag($tag);
@@ -106,11 +109,11 @@ class ManagerTest extends TestCase
 
     public function testThatExceptionIsThrownWhenTryingToDeleteTagWhichDoesNotExist(): void
     {
-        $pathToFile = __DIR__.'/proper-file.jpg';
+        $pathToFile = self::PROPER_FILE;
         $this->expectException(\LogicException::class);
         $this->expectExceptionMessage('Can not delete tag with code \'100\', because it does not exist in file ' . $pathToFile);
 
-        $this->manager->loadFile(__DIR__.'/proper-file.jpg');
+        $this->manager->loadFile(self::PROPER_FILE);
         $this->manager->deleteTag(Tag::COUNTRY_CODE);
     }
 }
