@@ -64,7 +64,7 @@ class Manager
     /**
      * @param string $pathToFile
      */
-    public function setPathToFile(string $pathToFile): void
+    public function loadFile(string $pathToFile): void
     {
         $this->checkIfFileTypeIsSupported($pathToFile);
 

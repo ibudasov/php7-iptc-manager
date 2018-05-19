@@ -72,7 +72,7 @@ class ManagerTest extends TestCase
             ->with($pathToFile)
             ->andReturn(\json_decode('{"2#001":["\u001b%G"],"2#000":["\u0000\u0004"],"2#055":["20180328"],"2#060":["124126"],"2#062":["20180328"],"2#063":["124126"],"2#080":["IGOR BUDASOV"],"2#025":["norway","scandinavia","spring","2018","nordic","outdoor","relax","beautiful","tourism","hiking","walking","Cl lofoten islands","louds","cold","frost","Clououdy","clouds","sky","mountain","nature","background","cloudy","hillside","distance","highland"],"2#120":["Spring in Norway: a large mountain in the background"]}', true));
 
-        self::assertNull($this->manager->setPathToFile($pathToFile));
+        self::assertNull($this->manager->loadFile($pathToFile));
     }
 
     public function testThatExceptionIsThrownWhenFileExtensionIsNotSupported(): void
@@ -81,7 +81,7 @@ class ManagerTest extends TestCase
 
         $pathToFile = '/tmp/test.wrong';
 
-        $this->manager->setPathToFile($pathToFile);
+        $this->manager->loadFile($pathToFile);
     }
 
     public function testThatExceptionIsThrownWhenFileDoesNotExist(): void
@@ -95,7 +95,7 @@ class ManagerTest extends TestCase
             ->with($pathToFile)
             ->andReturnFalse();
 
-        self::assertNull($this->manager->setPathToFile($pathToFile));
+        self::assertNull($this->manager->loadFile($pathToFile));
     }
 
     public function testThatAllTheExistingTagsCanBeParsedAndReturned(): void
@@ -114,7 +114,7 @@ class ManagerTest extends TestCase
                 new Tag('025', ['norway', 'scandinavia', 'spring']),
             ]);
 
-        $this->manager->setPathToFile($pathToFile);
+        $this->manager->loadFile($pathToFile);
 
         self::assertInternalType('array', $this->manager->getTags());
         self::assertInstanceOf(Tag::class, \current($this->manager->getTags()));
@@ -136,7 +136,7 @@ class ManagerTest extends TestCase
                 new Tag('025', ['norway', 'scandinavia', 'spring']),
             ]);
 
-        $this->manager->setPathToFile($pathToFile);
+        $this->manager->loadFile($pathToFile);
 
         self::assertEquals(
             'norway, scandinavia, spring',
@@ -160,7 +160,7 @@ class ManagerTest extends TestCase
                 new Tag('120', ['some description']),
             ]);
 
-        $this->manager->setPathToFile($pathToFile);
+        $this->manager->loadFile($pathToFile);
 
         self::assertEquals(
             'some description',
@@ -184,7 +184,7 @@ class ManagerTest extends TestCase
                 new Tag('080', ['AUTHOR NAME']),
             ]);
 
-        $this->manager->setPathToFile($pathToFile);
+        $this->manager->loadFile($pathToFile);
 
         self::assertEquals(
             'AUTHOR NAME',
@@ -206,7 +206,7 @@ class ManagerTest extends TestCase
             ->with($pathToFile)
             ->andReturn([]);
 
-        $this->manager->setPathToFile($pathToFile);
+        $this->manager->loadFile($pathToFile);
 
         self::assertNull(
             $this->manager->getTag(Tag::AUTHOR)
@@ -247,7 +247,7 @@ class ManagerTest extends TestCase
             ->with($pathToFile, 'updated-binary-string')
             ->andReturnTrue();
 
-        $this->manager->setPathToFile($pathToFile);
+        $this->manager->loadFile($pathToFile);
 
         self::assertNull($this->manager->write());
     }
@@ -281,7 +281,7 @@ class ManagerTest extends TestCase
             ->with($pathToFile)
             ->andReturn([$tag]);
 
-        $this->manager->setPathToFile($pathToFile);
+        $this->manager->loadFile($pathToFile);
 
         self::assertNull($this->manager->write());
     }
@@ -299,7 +299,7 @@ class ManagerTest extends TestCase
             ->with($pathToFile)
             ->andReturn([]);
 
-        $this->manager->setPathToFile($pathToFile);
+        $this->manager->loadFile($pathToFile);
 
         $this->manager->addTag($tag);
 
@@ -319,7 +319,7 @@ class ManagerTest extends TestCase
             ->with($pathToFile)
             ->andReturn([$tag]);
 
-        $this->manager->setPathToFile($pathToFile);
+        $this->manager->loadFile($pathToFile);
 
         $this->manager->deleteTag('080');
 
@@ -343,7 +343,7 @@ class ManagerTest extends TestCase
             ->with($pathToFile)
             ->andReturn([]);
 
-        $this->manager->setPathToFile($pathToFile);
+        $this->manager->loadFile($pathToFile);
 
         $this->manager->deleteTag('080');
     }
@@ -366,7 +366,7 @@ class ManagerTest extends TestCase
             ->with($pathToFile)
             ->andReturn([$tag]);
 
-        $this->manager->setPathToFile($pathToFile);
+        $this->manager->loadFile($pathToFile);
         $this->manager->addTag($tag);
     }
 }

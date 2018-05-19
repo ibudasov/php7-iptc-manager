@@ -33,7 +33,7 @@ Once you have an instance of the Manager - you'll need to specify the file to wo
 `['jpg', 'jpeg', 'pjpeg']` file types are supported, and if you try to feed something else - exception will be thrown
 
 ```
-$manager->setPathToFile('/tmp/proper-file.jpg');
+$manager->loadFile('/tmp/proper-file.jpg');
 ```
 
 
@@ -55,7 +55,7 @@ It was made to avoid accidental removing of data. Yes, we were thinking about sa
 
 ### Read an IPTC tag
 
-Once you `setPathToFile()` all the included IPTC tags will be loaded to the Manager, so you can retrieve any tag by it's codename.
+Once you `loadFile()` all the included IPTC tags will be loaded to the Manager, so you can retrieve any tag by it's codename.
 
 If this tag doesn't exist - you'll experience an exception.
 ```
