@@ -4,8 +4,6 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/8a0f32e9d6ff3948e4d6/maintainability)](https://codeclimate.com/github/ibudasov/php7-iptc-manager/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/8a0f32e9d6ff3948e4d6/test_coverage)](https://codeclimate.com/github/ibudasov/php7-iptc-manager/test_coverage)
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/ibudasov/php7-iptc-manager.svg?style=flat-square)](https://packagist.org/packages/ibudasov/php7-iptc-manager )
-[![Latest Stable Version](https://poser.pugx.org/ibudasov/php7-iptc-manager/version.png)](https://packagist.org/packages/ibudasov/php7-iptc-manager)
-[![GitHub contributors](https://img.shields.io/github/contributors/ibudasov/php7-iptc-manager.svg)](https://github.com/ibudasov/php7-iptc-manager/graphs/contributors)
 [![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
 
 ### Why and what is it
