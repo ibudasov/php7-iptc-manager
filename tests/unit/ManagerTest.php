@@ -53,11 +53,7 @@ class ManagerTest extends TestCase
         self::assertInstanceOf(Manager::class, $manager);
     }
 
-    public function testThatClassCanBeInstantiated(): void
-    {
-        self::assertInstanceOf(Manager::class, $this->manager);
-    }
-
+    /** @doesNotPerformAssertions */
     public function testThatPathToFileCanBeSetWhenFileTypeIsCorrect(): void
     {
         $pathToFile = '/tmp/test.jpg';
@@ -72,7 +68,7 @@ class ManagerTest extends TestCase
             ->with($pathToFile)
             ->andReturn(\json_decode('{"2#001":["\u001b%G"],"2#000":["\u0000\u0004"],"2#055":["20180328"],"2#060":["124126"],"2#062":["20180328"],"2#063":["124126"],"2#080":["IGOR BUDASOV"],"2#025":["norway","scandinavia","spring","2018","nordic","outdoor","relax","beautiful","tourism","hiking","walking","Cl lofoten islands","louds","cold","frost","Clououdy","clouds","sky","mountain","nature","background","cloudy","hillside","distance","highland"],"2#120":["Spring in Norway: a large mountain in the background"]}', true));
 
-        self::assertNull($this->manager->loadFile($pathToFile));
+        $this->manager->loadFile($pathToFile);
     }
 
     public function testThatExceptionIsThrownWhenFileExtensionIsNotSupported(): void
@@ -95,7 +91,7 @@ class ManagerTest extends TestCase
             ->with($pathToFile)
             ->andReturnFalse();
 
-        self::assertNull($this->manager->loadFile($pathToFile));
+        $this->manager->loadFile($pathToFile);
     }
 
     public function testThatAllTheExistingTagsCanBeParsedAndReturned(): void
@@ -213,6 +209,10 @@ class ManagerTest extends TestCase
         );
     }
 
+    /**
+     * @doesNotPerformAssertions
+     * @throws \Exception
+     */
     public function testThatTagsAreEncodedAndWrittenToPictureFile(): void
     {
         $pathToFile = '/tmp/test.jpg';
@@ -249,9 +249,12 @@ class ManagerTest extends TestCase
 
         $this->manager->loadFile($pathToFile);
 
-        self::assertNull($this->manager->write());
+        $this->manager->write();
     }
 
+    /**
+     * @throws \Exception
+     */
     public function testThatExceptionIsThrownIfCanNotCreateANewBinaryStringWithNewTags(): void
     {
         $pathToFile = '/tmp/test.jpg';
@@ -283,7 +286,7 @@ class ManagerTest extends TestCase
 
         $this->manager->loadFile($pathToFile);
 
-        self::assertNull($this->manager->write());
+        $this->manager->write();
     }
 
     public function testThatTagCanBeAdded(): void

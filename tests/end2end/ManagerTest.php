@@ -36,34 +36,32 @@ class ManagerTest extends TestCase
         $this->manager->loadFile('/tmp/imaginary-file.jpg');
     }
 
-    public function testThatFileCanBeSetIfExistsAndSupported(): void
-    {
-        self::assertNull($this->manager->loadFile(__DIR__.'/proper-file.jpg'));
-    }
-
     public function testThatAllTheExistingTagsCanBeParsedAndReturned(): void
     {
-        self::assertNull($this->manager->loadFile(__DIR__.'/proper-file.jpg'));
+        $this->manager->loadFile(__DIR__.'/proper-file.jpg');
         self::assertInternalType('array', $this->manager->getTags());
         self::assertInstanceOf(Tag::class, \current($this->manager->getTags()));
     }
 
     public function testThatArrayIsReturnedWhenThereAreNoTags(): void
     {
-        self::assertNull($this->manager->loadFile(__DIR__.'/no-tags.jpg'));
+        $this->manager->loadFile(__DIR__.'/no-tags.jpg');
         self::assertInternalType('array', $this->manager->getTags());
         self::assertEmpty($this->manager->getTags());
     }
 
     public function testThatAuthorTagCanBeReturned(): void
     {
-        self::assertNull($this->manager->loadFile(__DIR__.'/proper-file.jpg'));
+        $this->manager->loadFile(__DIR__.'/proper-file.jpg');
         self::assertEquals('IGOR BUDASOV', $this->manager->getTag(Tag::AUTHOR));
     }
 
+    /**
+     * @throws \Exception
+     */
     public function testThatTagsCanBeWritten(): void
     {
-        self::assertNull($this->manager->loadFile(__DIR__.'/proper-file.jpg'));
+        $this->manager->loadFile(__DIR__.'/proper-file.jpg');
         self::assertEquals('IGOR BUDASOV', $this->manager->getTag(Tag::AUTHOR));
         $this->manager->write();
     }
