@@ -3,6 +3,8 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/8a0f32e9d6ff3948e4d6/maintainability)](https://codeclimate.com/github/ibudasov/php7-iptc-manager/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/8a0f32e9d6ff3948e4d6/test_coverage)](https://codeclimate.com/github/ibudasov/php7-iptc-manager/test_coverage)
 [![CircleCI](https://circleci.com/gh/ibudasov/php7-iptc-manager.svg?style=svg)](https://circleci.com/gh/ibudasov/php7-iptc-manager)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/ibudasov/php7-iptc-manager.svg?style=flat-square)](https://packagist.org/packages/ibudasov/php7-iptc-manager )
+
 
 ### Why and what is it
 [IPTC tags](https://iptc.org) are tags, which you can include in a picture you have taken (remember Instagram?)
