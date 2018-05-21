@@ -49,6 +49,7 @@ You can specify multiple values for each tag, it is allowed by specification, so
 
 ```
 $manager->addTag(new Tag(Tag::AUTHOR, ['IGOR BUDASOV']));
+$manager->write();
 ```
 
 If a tag with the same name already exists - an exception will be thrown, so you can use `Manager::deleteTag()` to explicitly remove previous value.
@@ -76,6 +77,7 @@ Sometimes you want to delete a tag - here is the way.
 If you're trying to delete a tag which does not exist - exception will be thrown.
 ```
 $manager->deleteTag(Tag::AUTHOR);
+$manager->write();
 ```
 
 
