@@ -42,14 +42,14 @@ class ManagerTest extends TestCase
     public function testThatAllTheExistingTagsCanBeParsedAndReturned(): void
     {
         $this->manager->loadFile(self::PROPER_FILE);
-        self::assertInternalType('array', $this->manager->getTags());
+        self::assertIsArray($this->manager->getTags());
         self::assertInstanceOf(Tag::class, \current($this->manager->getTags()));
     }
 
     public function testThatArrayIsReturnedWhenThereAreNoTags(): void
     {
         $this->manager->loadFile(__DIR__.'/no-tags.jpg');
-        self::assertInternalType('array', $this->manager->getTags());
+        self::assertIsArray($this->manager->getTags());
         self::assertEmpty($this->manager->getTags());
     }
 

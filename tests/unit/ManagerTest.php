@@ -112,7 +112,8 @@ class ManagerTest extends TestCase
 
         $this->manager->loadFile($pathToFile);
 
-        self::assertInternalType('array', $this->manager->getTags());
+
+        self::assertIsArray($this->manager->getTags());
         self::assertInstanceOf(Tag::class, \current($this->manager->getTags()));
     }
 
